@@ -240,6 +240,10 @@
                   <value>${auth.enabled:false}</value>
                 </systemProperty>
 
+                <systemProperty>
+                  <name>fcrepo.modeshape.configuration</name>
+                  <value>classpath:/config/minimal-default/repository.json</value>
+                </systemProperty>
               </systemProperties>
 
             </configuration>
@@ -461,6 +465,60 @@
       </build>
     </profile>
 
+    <profile>
+      <id>connector-file</id>
+      <properties>
+         <file-connector.src.dir>${project.basedir}/src/file-connector</file-connector.src.dir>
+         <file-connector.build.name>-file-connector</file-connector.build.name>
+       </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.fcrepo.connector-file</groupId>
+          <artifactId>fcrepo-connector-file</artifactId>
+          <version>4.5.2-SNAPSHOT</version>
+        </dependency>
+      </dependencies>
+      <build>
+        <finalName>${project.name}-connector-file${audit.build.name}-${project.version}</finalName>
+        <resources>
+          <resource>
+            <directory>${file-connector.src.dir}</directory>
+          </resource>
+          <resource>
+            <directory>${audit.auth.content}</directory>
+          </resource>
+        </resources>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <includes>
+                <include>${file-connector.src.dir}/**.java</include>
+              </includes>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <argLine>${jacoco.agent.it.arg} -Dauth.enabled=${auth.enabled}</argLine>
+            </configuration>
+            <executions>
+              <execution>
+                <id>default-integration-test</id>
+                <configuration>
+                  <includes>
+                    <include>${file-connector.src.dir}/test/java/FileConnectorIT.java</include>
+                  </includes>
+                </configuration>
+                <goals>
+                  <goal>integration-test</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 
 </project>
