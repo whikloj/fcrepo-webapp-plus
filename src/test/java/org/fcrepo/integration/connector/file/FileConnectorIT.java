@@ -1,4 +1,4 @@
-package org.fcrepo.integration;
+package org.fcrepo.integration.connector.file;
 
 import static com.hp.hpl.jena.graph.Node.ANY;
 import static com.hp.hpl.jena.graph.NodeFactory.createLiteral;
@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import org.fcrepo.http.commons.test.util.CloseableGraphStore;
 import org.fcrepo.integration.http.api.AbstractResourceIT;
@@ -40,6 +42,8 @@ import com.hp.hpl.jena.graph.Node;
  * @author ajs6f
  */
 public class FileConnectorIT extends AbstractResourceIT {
+
+    private static SimpleDateFormat headerFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US);
 
     /**
      * I should be able to link to content on a federated filesystem.

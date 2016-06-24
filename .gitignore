@@ -10,3 +10,5 @@ overlays/
 .classpath
 .settings/
 .project
+.idea/
+*.iml
