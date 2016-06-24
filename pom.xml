@@ -19,6 +19,7 @@
     <audit.auth.excludes />
     <!-- integration test properties -->
     <fcrepo.test.context.path>/</fcrepo.test.context.path>
+    <connector.file.excludes>**/FileConnectorIT.java</connector.file.excludes>
   </properties>
 
   <repositories>
@@ -264,6 +265,9 @@
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>
           <argLine>${jacoco.agent.it.arg} -Dauth.enabled=${auth.enabled}</argLine>
+          <excludes>
+            <exclude>${connector.file.excludes}</exclude>
+          </excludes>
         </configuration>
         <executions>
           <execution>
@@ -470,6 +474,7 @@
       <properties>
          <file-connector.src.dir>${project.basedir}/src/file-connector</file-connector.src.dir>
          <file-connector.build.name>-file-connector</file-connector.build.name>
+         <connector.file.excludes>none</connector.file.excludes>
        </properties>
       <dependencies>
         <dependency>
@@ -488,35 +493,6 @@
             <directory>${audit.auth.content}</directory>
           </resource>
         </resources>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <includes>
-                <include>${file-connector.src.dir}/**.java</include>
-              </includes>
-            </configuration>
-          </plugin>
-          <plugin>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <configuration>
-              <argLine>${jacoco.agent.it.arg} -Dauth.enabled=${auth.enabled}</argLine>
-            </configuration>
-            <executions>
-              <execution>
-                <id>default-integration-test</id>
-                <configuration>
-                  <includes>
-                    <include>${file-connector.src.dir}/test/java/FileConnectorIT.java</include>
-                  </includes>
-                </configuration>
-                <goals>
-                  <goal>integration-test</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
       </build>
     </profile>
   </profiles>
